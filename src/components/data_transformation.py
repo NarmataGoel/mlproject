@@ -15,7 +15,7 @@ from dataclasses import dataclass
 
 @dataclass
 class DataTransformationConfig:
-    proprocessor_obj_file_path :str= os.path.join('artifacts','preprocessor.pkl')
+     proprocessor_obj_file_path :str= os.path.join('artifacts','preprocessor.pkl')
 
 class DataTransformation:
     def __init__(self):
@@ -35,7 +35,7 @@ class DataTransformation:
             cat_pipeline = Pipeline(
                 steps=[
                     ("imputer", SimpleImputer(strategy='most_frequent')),
-                    ("one_hot_encoder", OneHotEncoder()),
+                    ("one_hot_encoder", OneHotEncoder(handle_unknown='ignore')),
                     ("scaler", StandardScaler(with_mean=False))
                 ]
             )
@@ -62,10 +62,10 @@ class DataTransformation:
              logging.info("obtaining preprocessing objects")
              preprocessor_obj=self.get_data_transformer_object();
              target_col='math_score';             
-             input_feature_train_df=train_df.drop(columns=[target_col],axis =1 )
+             input_feature_train_df = train_df.drop(columns=[target_col])
              target_feature_train_df=train_df[target_col];
 
-             input_feature_test_df=test_df.drop(columns=[target_col],axis =1 )
+             input_feature_test_df = test_df.drop(columns=[target_col])
              target_feature_test_df=test_df[target_col];
 
              input_feature_train_arr=preprocessor_obj.fit_transform(input_feature_train_df)
